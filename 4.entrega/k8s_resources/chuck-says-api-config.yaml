@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: chuck-says-api-query-config
+  namespace: default
+data:
+  config.properties: |-
+    [DatabaseSection]
+    mongo.uri=mongodb://mongo:27017
+
+    [ServerSection]
+    server.port=48080

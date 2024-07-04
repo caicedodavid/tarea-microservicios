@@ -3,24 +3,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: chuck-says-api
-  name: chuck-says-api
+    app: chuck-says-api-query
+  name: chuck-says-api-query
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: chuck-says-api
+      app: chuck-says-api-query
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: chuck-says-api
+        app: chuck-says-api-query
     spec:
       containers:
-        - name: chuck-says-api
-          image: ogomezso/chuck-says-api:0.0.1
+        - name: chuck-says-api-query
+          image: caicedodavid/chuck-says-query:0.0.2
           resources: {}
           volumeMounts:
             - name: app-config-volume
@@ -28,4 +28,4 @@ spec:
       volumes:
         - name: app-config-volume
           configMap:
-            name: chuck-says-api-config
+            name: chuck-says-api-query-config

@@ -4,16 +4,16 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: chuck-says-api
-  name: chuck-says-api-lb
+    app: chuck-says-api-query
+  name: chuck-says-api-query-lb
   namespace: default
 spec:
   type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 48080
       protocol: TCP
-      targetPort: 8080
+      targetPort: 48080
   selector:
-    app: chuck-says-api
+    app: chuck-says-api-query
 status:
   loadBalancer: {}

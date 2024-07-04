@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Chuck Facts API
+  description: |
+    An API for creating and querying **Chuck Norris Facts** .
+    Writing Server and Query server are separated, please choose accordingly in
+    each case
+tags:
+  - name: facts
+    description: Something aout Chuck Norris
+
+paths:
+  /chuck-says:
+    post:
+      tags:
+        - facts
+      summary: Add a new fact
+      description: Add a new fact
+      operationId: postFact
+      responses:
+        '200':
+          description: Get Fact response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fact'
+  /facts:
+    get:
+      tags:
+        - facts
+      summary: Get a list of facts
+      description: A list of facts
+      operationId: getFacts
+      parameters:
+        - name: start
+          in: query
+          description: Filter facts by creation date greater or equal than this date
+          required: false
+          explode: true
+          schema:
+            type: string
+            example: 2024-04-01
+        - name: end
+          in: query
+          description: Filter facts by creation date lesser than this date
+          required: false
+          schema:
+            type: string
+            example: 2024-04-01
+      responses:
+        '200':
+          description: Get Facts response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facts'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /facts/{id}:  
+    get:
+      tags: 
+        - facts
+      summary: Get a specifi fact by id
+      description: Use this operation to get a specific fact
+      operationId: getFact
+      parameters:
+        - name: id
+          in: path
+          description: The identifier for the path
+          required: true
+          schema:
+            type: int
+            example: 1
+      responses:
+        '200':
+          description: Get Fact response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fact'
+        '404':
+          description: Fact not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Fact:
+      type: object
+      properties:
+        _id:
+          type: int
+          description: Id of the fact
+          example: a76b67cb-7976-4b94-af8e-381688c915ad
+        id:
+          type: int
+          description: Id of the fact
+          example: 1
+        timestamp:
+          type: int
+          description: Timestamp of creation of the fact
+          example: 1719791926065
+        fact:
+          type: string
+          description: Chuck norris fact
+          example: Chuck Norris can write multi-threaded applications with a single thread.
+    Facts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Fact'
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: error message
+          example: An Internal Error ocurred
+        
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: Get Facts Server
+    url: http://localhost:48080/
+  - description: Create Facts Server
+    url: http://localhost:28080
